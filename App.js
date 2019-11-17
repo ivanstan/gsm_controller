@@ -1,12 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
+import Slider from '@react-native-community/slider';
 import React from 'react';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -23,48 +19,28 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {SettingsScreen} from './src/screens/SettingsScreen';
+import {MainScreen} from './src/screens/MainScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const App: () => React$Node = () => {
+const Main: () => React$Node = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content"/>
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
+              <Slider
+                style={{width: '100%', height: 40}}
+                minimumValue={35}
+                maximumValue={80}
+                minimumTrackTintColor="#000000"
+                maximumTrackTintColor="#FFFFFF"
+              />
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -110,5 +86,16 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
+
+const MainNavigator = createStackNavigator({
+    Main: {screen: MainScreen},
+    Settings: {screen: SettingsScreen},
+  },
+  {
+    initialRouteName: 'Main',
+  },
+);
+
+const App = createAppContainer(MainNavigator);
 
 export default App;
